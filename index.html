@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Portfolio – Christian Bröringmeyer</title>
+  <style>
+    :root{
+      --bg:#0b0c10; --card:#121317; --muted:#9aa0a6; --text:#e8eaed; --accent:#7dd3fc; --pill:#1f2937;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0; padding:0; background:linear-gradient(180deg,#0b0c10 0%, #0f1115 100%); color:var(--text); font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial}
+    a{color:var(--accent); text-decoration:none}
+    a:hover{text-decoration:underline}
+    .wrap{max-width:960px; margin:0 auto; padding:40px 20px}
+    header{display:flex; flex-wrap:wrap; align-items:end; gap:12px; margin-bottom:28px;}
+    h1{font-size:clamp(26px,4vw,40px); margin:0; letter-spacing:0.3px}
+    .tagline{color:var(--muted)}
+    .pill{display:inline-flex; align-items:center; gap:8px; background:var(--pill); border:1px solid #293241; color:#c7d2fe; padding:6px 10px; border-radius:999px; font-size:13px}
+    h2{font-size:20px; margin:12px 0 6px}
+    .meta{color:var(--muted); font-size:14px; margin-bottom:12px}
+    footer{margin-top:36px; color:var(--muted); font-size:14px}
+    .divider{height:1px; background:linear-gradient(90deg,transparent, #2b313c 50%, transparent); margin:26px 0}
+
+    /* horizontale scroll */
+    .projects-scroll {
+      display: flex;
+      gap: 18px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding-bottom: 10px;
+    }
+    .card {
+      flex: 0 0 80%;
+      background: var(--card);
+      border: 1px solid #23262d;
+      border-radius: 18px;
+      padding: 20px;
+      box-shadow: 0 10px 24px rgba(0,0,0,.25);
+      scroll-snap-align: start;
+    }
+    @media(min-width:1024px) {
+      .card { flex: 0 0 40%; }
+    }
+    .thumbs {
+      display: flex;
+      gap: 10px;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      padding-bottom: 8px;
+    }
+    .thumbs img {
+      width: 100px;
+      border-radius: 8px;
+      border: 1px solid #2c3444;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .thumbs img:hover { transform: scale(1.05); }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header>
+      <h1>Christian Bröringmeyer</h1>
+      <span class="pill" title="Drietalig & onderzoekend">Communicatie · onderzoek · visualisatie</span>
+      <p class="tagline">Startend communicatieprofessional. Ik vertaal complexe inhoud naar heldere verhalen en visuals.</p>
+    </header>
+
+    <section aria-labelledby="work">
+      <h2 id="work">Geselecteerde projecten (3)</h2>
+      <div class="projects-scroll">
+
+        <!-- Project 1 -->
+        <article class="card">
+          <h2>Grensoverschrijdende Operationele Netwerkkaart – Rampenbestrijding & Crisisbeheersing</h2>
+          <p class="meta">Veiligheidsregio Groningen & Nedersaksen · tweetalig (NL/DE)</p>
+          <div class="thumbs">
+            <a href="VRG_Netwerkkaart.pdf" target="_blank"><img src="vrg_page1.png" alt="Preview pagina 1"></a>
+            <a href="VRG_Netwerkkaart.pdf" target="_blank"><img src="vrg_page2.png" alt="Preview pagina 2"></a>
+          </div>
+          <p>Visualisatie en structuur van crisisrollen en opschaling aan beide kanten van de grens. Doel: snel overzicht bieden tijdens incidenten en rampen.</p>
+        </article>
+
+        <!-- Project 2 -->
+        <article class="card">
+          <h2>G7 vs. China – discoursanalyse Oekraïne</h2>
+          <p class="meta">Universiteit Groningen · 2023</p>
+          <div class="thumbs">
+            <a href="G7_vs_China.pdf" target="_blank"><img src="g7_page1.png" alt="Preview pagina 1"></a>
+          </div>
+          <p>Kritische discoursanalyse van officiële statements van China en G7-leiders kort na escalatie van de oorlog in 2022. Focus op agency, ideologie en stance-taking.</p>
+        </article>
+
+        <!-- Project 3 -->
+        <article class="card">
+          <h2>Digital Clean-up Campaign – University of Groningen</h2>
+          <p class="meta">Green Office · 3 posters</p>
+          <div class="thumbs">
+            <a href="PosterLivingLab.pdf" target="_blank"><img src="PosterLivingLab-1.png" alt="Poster 1"></a>
+            <a href="PosterLivingLab.pdf" target="_blank"><img src="PosterLivingLab-2.png" alt="Poster 2"></a>
+            <a href="PosterLivingLab.pdf" target="_blank"><img src="PosterLivingLab-3.png" alt="Poster 3"></a>
+          </div>
+          <p>Campagneposters die bewustzijn creëren over de ecologische voetafdruk van digitale opslag. Ontworpen om studenten en medewerkers te stimuleren hun digitale data schoner te beheren.</p>
+        </article>
+
+      </div>
+    </section>
+
+    <div class="divider" role="presentation"></div>
+
+    <section aria-labelledby="about">
+      <h2 id="about">Over</h2>
+      <p>
+        Startend communicatieprofessional met een achtergrond in Communicatie- en Informatiewetenschappen en Filosofie. 
+        Ik werk het liefst aan projecten waar taal, structuur en vorm samenkomen om iets ingewikkelds eenvoudig te maken.
+      </p>
+    </section>
+
+    <footer>
+      © <span id="year"></span> Christian Bröringmeyer · Beschikbaar voor parttime opdrachten (~24 u/w)
+    </footer>
+  </main>
+  <script>document.getElementById('year').textContent=new Date().getFullYear()</script>
+</body>
+</html>
