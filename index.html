@@ -5,122 +5,277 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Portfolio – Christian Bröringmeyer</title>
   <style>
-    :root{
-      --bg:#0b0c10; --card:#121317; --muted:#9aa0a6; --text:#e8eaed; --accent:#7dd3fc; --pill:#1f2937;
+    :root {
+      --bg: #0b0c10;
+      --card: #171a21;
+      --muted: #9aa0a6;
+      --text: #f1f3f4;
+      --accent: #7dd3fc;
+      --pill: #1f2937;
     }
-    *{box-sizing:border-box}
-    html,body{margin:0; padding:0; background:linear-gradient(180deg,#0b0c10 0%, #0f1115 100%); color:var(--text); font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial}
-    a{color:var(--accent); text-decoration:none}
-    a:hover{text-decoration:underline}
-    .wrap{max-width:960px; margin:0 auto; padding:40px 20px}
-    header{display:flex; flex-wrap:wrap; align-items:end; gap:12px; margin-bottom:28px;}
-    h1{font-size:clamp(26px,4vw,40px); margin:0; letter-spacing:0.3px}
-    .tagline{color:var(--muted)}
-    .pill{display:inline-flex; align-items:center; gap:8px; background:var(--pill); border:1px solid #293241; color:#c7d2fe; padding:6px 10px; border-radius:999px; font-size:13px}
-    h2{font-size:20px; margin:12px 0 6px}
-    .meta{color:var(--muted); font-size:14px; margin-bottom:12px}
-    footer{margin-top:36px; color:var(--muted); font-size:14px}
-    .divider{height:1px; background:linear-gradient(90deg,transparent, #2b313c 50%, transparent); margin:26px 0}
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: radial-gradient(circle at top center, #101217 0%, #0b0c10 80%);
+      color: var(--text);
+      font: 16px/1.75 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial;
+      scroll-behavior: smooth;
+    }
+    a { color: var(--accent); text-decoration: none }
+    a:hover { text-decoration: underline }
+    .wrap { max-width: 1140px; margin: 0 auto; padding: 40px 20px }
+    
+    /* Sticky header nav */
+    header {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 36px;
+      padding: 16px 0 24px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(11,12,16,0.9);
+      backdrop-filter: blur(8px);
+    }
+    header::after {
+      content:"";
+      position:absolute;
+      bottom:-2px; left:0; right:0;
+      height:2px;
+      background:linear-gradient(90deg,transparent,var(--accent),transparent);
+      opacity:0.4;
+    }
 
-    /* horizontale scroll */
+    h1 {
+      font-size: clamp(26px,4vw,40px);
+      margin: 0;
+      letter-spacing: 0.3px;
+    }
+    .tagline {
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .pill {
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      background:linear-gradient(135deg,#1f2937 0%,#2d3748 100%);
+      border:1px solid rgba(255,255,255,.1);
+      color:#c7d2fe;
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:13px;
+      box-shadow:0 0 8px rgba(125,211,252,.25);
+    }
+
+    h2 {
+      font-size:20px;
+      margin:12px 0 6px;
+      background: linear-gradient(90deg, var(--accent), #a5f3fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .meta { color: var(--muted); font-size:14px; margin-bottom:12px }
+
+    footer {
+      margin-top:36px;
+      color: var(--muted);
+      font-size:14px;
+      text-align: center;
+    }
+    footer .links {
+      margin-top: 8px;
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+    }
+    .divider {
+      height:1px;
+      opacity:.6;
+      background:linear-gradient(90deg,transparent,#3b4250 40%,transparent);
+      margin:40px 0;
+    }
+
+    /* Project scroller */
+    .projects-scroll-wrapper { position:relative; }
     .projects-scroll {
-      display: flex;
-      gap: 18px;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      padding-bottom: 10px;
+      display:flex; gap:18px;
+      overflow-x:auto;
+      scroll-snap-type:x mandatory;
+      padding-bottom:10px;
+      scrollbar-width:none;
     }
+    .projects-scroll::-webkit-scrollbar { display:none; }
+
     .card {
-      flex: 0 0 80%;
+      flex:0 0 80%;
       background: var(--card);
-      border: 1px solid #23262d;
-      border-radius: 18px;
-      padding: 20px;
-      box-shadow: 0 10px 24px rgba(0,0,0,.25);
-      scroll-snap-align: start;
+      border:1px solid rgba(255,255,255,0.05);
+      border-radius:18px;
+      padding:20px;
+      box-shadow:0 8px 24px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.05);
+      scroll-snap-align:start;
+      transition:transform .25s, box-shadow .25s, opacity 0.6s ease;
+      opacity: 0;
+      transform: translateY(20px);
     }
-    @media(min-width:1024px) {
-      .card { flex: 0 0 40%; }
+    .card.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
+    .card:hover {
+      transform:translateY(-6px);
+      box-shadow:0 14px 32px rgba(0,0,0,.45), 0 0 12px rgba(125,211,252,.25);
+    }
+
+    @media(min-width:1024px) { .card { flex:0 0 40%; } }
+
     .thumbs {
-      display: flex;
-      gap: 10px;
-      flex-wrap: nowrap;
-      overflow-x: auto;
-      padding-bottom: 8px;
+      display:flex;
+      gap:10px;
+      flex-wrap:nowrap;
+      overflow-x:auto;
+      padding-bottom:8px;
+      scrollbar-width:none;
     }
+    .thumbs::-webkit-scrollbar { display:none; }
     .thumbs img {
-      width: 100px;
-      border-radius: 8px;
-      border: 1px solid #2c3444;
-      cursor: pointer;
-      transition: transform 0.2s;
+      width: 120px; height: 80px;
+      object-fit: cover;
+      border-radius:8px;
+      border:1px solid #2c3444;
+      cursor:pointer;
+      transition:transform .2s, box-shadow .2s;
     }
-    .thumbs img:hover { transform: scale(1.05); }
+    .thumbs img:hover {
+      transform:scale(1.08);
+      box-shadow:0 0 8px rgba(125,211,252,0.5);
+    }
+
+    /* Arrow buttons */
+    .arrow {
+      position:absolute;
+      top:50%;
+      transform:translateY(-50%);
+      background:rgba(20,22,28,0.8);
+      border:1px solid rgba(255,255,255,.1);
+      color:var(--accent);
+      width:38px; height:38px;
+      display:flex;
+      align-items:center; justify-content:center;
+      border-radius:50%;
+      cursor:pointer;
+      transition:background .2s, transform .2s;
+      z-index:2;
+    }
+    .arrow:hover {
+      background:rgba(40,44,54,0.95);
+      transform:translateY(-50%) scale(1.1);
+    }
+    .arrow.left { left:-14px; }
+    .arrow.right { right:-14px; }
+
+    /* About section */
+    #about {
+      position:relative;
+      padding:20px;
+      border-radius:16px;
+      background:rgba(255,255,255,0.02);
+      box-shadow:inset 0 0 10px rgba(125,211,252,0.08);
+    }
+    #about h2 { margin-top:0; border-left:3px solid var(--accent); padding-left:12px; }
   </style>
 </head>
 <body>
   <main class="wrap">
     <header>
       <h1>Christian Bröringmeyer</h1>
-      <span class="pill" title="Drietalig & onderzoekend">Communicatie · onderzoek · visualisatie</span>
-      <p class="tagline">Startend communicatieprofessional. Ik vertaal complexe inhoud naar heldere verhalen en visuals.</p>
+      <span class="pill">Communicatie · onderzoek · visualisatie</span>
+      <p class="tagline">Ik breng verhalen en ideeën tot leven via communicatie, met cultuur als inspiratiebron.</p>
     </header>
 
     <section aria-labelledby="work">
-      <h2 id="work">Geselecteerde projecten (3)</h2>
-      <div class="projects-scroll">
-
-        <!-- Project 1 -->
-        <article class="card">
-          <h2>Grensoverschrijdende Operationele Netwerkkaart – Rampenbestrijding & Crisisbeheersing</h2>
-          <p class="meta">Veiligheidsregio Groningen & Nedersaksen · tweetalig (NL/DE)</p>
-          <div class="thumbs">
-            <a href="VRG_Netwerkkaart.pdf" target="_blank"><img src="vrg_page1.png" alt="Preview pagina 1"></a>
-            <a href="VRG_Netwerkkaart.pdf" target="_blank"><img src="vrg_page2.png" alt="Preview pagina 2"></a>
-          </div>
-          <p>Visualisatie en structuur van crisisrollen en opschaling aan beide kanten van de grens. Doel: snel overzicht bieden tijdens incidenten en rampen.</p>
-        </article>
-
-        <!-- Project 2 -->
-        <article class="card">
-          <h2>G7 vs. China – discoursanalyse Oekraïne</h2>
-          <p class="meta">Universiteit Groningen · 2023</p>
-          <div class="thumbs">
-            <a href="G7_vs_China.pdf" target="_blank"><img src="g7_page1.png" alt="Preview pagina 1"></a>
-          </div>
-          <p>Kritische discoursanalyse van officiële statements van China en G7-leiders kort na escalatie van de oorlog in 2022. Focus op agency, ideologie en stance-taking.</p>
-        </article>
-
-        <!-- Project 3 -->
-        <article class="card">
-          <h2>Digital Clean-up Campaign – University of Groningen</h2>
-          <p class="meta">Green Office · 3 posters</p>
-          <div class="thumbs">
-            <a href="PosterLivingLab.pdf" target="_blank"><img src="PosterLivingLab-1.png" alt="Poster 1"></a>
-            <a href="PosterLivingLab.pdf" target="_blank"><img src="PosterLivingLab-2.png" alt="Poster 2"></a>
-            <a href="PosterLivingLab.pdf" target="_blank"><img src="PosterLivingLab-3.png" alt="Poster 3"></a>
-          </div>
-          <p>Campagneposters die bewustzijn creëren over de ecologische voetafdruk van digitale opslag. Ontworpen om studenten en medewerkers te stimuleren hun digitale data schoner te beheren.</p>
-        </article>
-
+      <h2 id="work">Drie voorbeelden van mijn werk</h2>
+      <div class="projects-scroll-wrapper">
+        <button class="arrow left" onclick="scrollProjects(-1)" aria-label="Scroll links">&#8592;</button>
+        <div class="projects-scroll" id="projects">
+          <!-- Project 1 -->
+          <article class="card">
+            <h2>Grensoverschrijdende Operationele Netwerkkaart</h2>
+            <p class="meta">Veiligheidsregio Groningen · Communicatie & Crisisbeheersing</p>
+            <div class="thumbs">
+              <a href="VRG_Netwerkkaart.pdf" target="_blank"><img src="vrg_page1.png" alt="Preview pagina 1"></a>
+              <a href="VRG_Netwerkkaart.pdf" target="_blank"><img src="vrg_page2.png" alt="Preview pagina 2"></a>
+            </div>
+            <p>Visualisatie en structurering van crisisrollen en opschalingsprocessen aan beide kanten van de grens, zodat hulpdiensten snel overzicht krijgen tijdens incidenten en rampen. Overzichten ontwikkeld op basis van protocollen en feedback van sleutelfiguren.</p>
+          </article>
+          <!-- Project 2 -->
+          <article class="card">
+            <h2>G7 vs. China – discourseanalyse en onderzoek</h2>
+            <p class="meta">Rijksuniversiteit Groningen · Corporate and Organisational Communication in the Real World</p>
+            <div class="thumbs">
+              <a href="G7_vs_China.pdf" target="_blank"><img src="g7_page1.png" alt="Preview pagina 1"></a>
+            </div>
+            <p>Kritische discoursanalyse van officiële statements van China en G7-leiders kort na escalatie van de oorlog in 2022. Focus op agency, ideologie en stance-taking.</p>
+          </article>
+          <!-- Project 3 -->
+          <article class="card">
+            <h2>Digital Clean-up Campaign - Student Project</h2>
+            <p class="meta">Rijksuniversiteit Groningen · GreenOffice</p>
+            <div class="thumbs">
+              <a href="PosterLivingLab.pdf" target="_blank"><img src="PosterLivingLab-1.png" alt="Poster 1"></a>
+              <a href="PosterLivingLab.pdf" target="_blank"><img src="PosterLivingLab-2.png" alt="Poster 2"></a>
+              <a href="PosterLivingLab.pdf" target="_blank"><img src="PosterLivingLab-3.png" alt="Poster 3"></a>
+            </div>
+            <p>Experimentele campagneposters die bewustzijn creëren over de ecologische impact van digitale opslag, ontwikkeld om strategieën voor bewustwording te onderzoeken en uiteindelijk in te zetten voor het Green Office van de Rijksuniversiteit Groningen.</p>
+          </article>
+        </div>
+        <button class="arrow right" onclick="scrollProjects(1)" aria-label="Scroll rechts">&#8594;</button>
       </div>
     </section>
 
     <div class="divider" role="presentation"></div>
 
-    <section aria-labelledby="about">
-      <h2 id="about">Over</h2>
+    <section aria-labelledby="about" id="about">
+      <h2>Over</h2>
       <p>
-        Startend communicatieprofessional met een achtergrond in Communicatie- en Informatiewetenschappen en Filosofie. 
-        Ik werk het liefst aan projecten waar taal, structuur en vorm samenkomen om iets ingewikkelds eenvoudig te maken.
+        Ik ben een jonge communicatieprofessional met een master in Communicatie- en Informatiewetenschappen en een bachelor in Filosofie, gespecialiseerd in Kunst en Cultuur. Ik heb een liefde voor de culturele sector en voor het creatief ontwerpen en vormgeven van communicatiemiddelen. Ideeën tot leven brengen via communicatie en daarmee cultuur bevorderen, is mijn drijfveer.
       </p>
     </section>
 
-    <footer>
-      © <span id="year"></span> Christian Bröringmeyer · Beschikbaar voor parttime opdrachten (~24 u/w)
+    <footer id="contact">
+      © <span id="year"></span> Christian Bröringmeyer · Flexibel inzetbaar (~36 uur per week)
+      <div class="links">
+        <a href="https://www.linkedin.com/in/christian-br%C3%B6ringmeyer-279839203/" target="_blank">LinkedIn</a>
+        <a href="mailto:christianbroeringmeyer@gmail.com">Email</a>
+      </div>
     </footer>
   </main>
-  <script>document.getElementById('year').textContent=new Date().getFullYear()</script>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    function scrollProjects(dir){
+      const el=document.getElementById("projects");
+      const scrollAmount=el.clientWidth*0.8; 
+      el.scrollBy({left:dir*scrollAmount, behavior:"smooth"});
+    }
+
+    // Fade-in animation for cards
+    const cards = document.querySelectorAll('.card');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {threshold: 0.2});
+    cards.forEach(card => observer.observe(card));
+  </script>
 </body>
 </html>
